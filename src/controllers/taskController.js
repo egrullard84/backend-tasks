@@ -12,6 +12,21 @@ export const createTask = async (req, res) => {
   }
 };
 
+// Actualizar una tarea por ID
+export const updateTask = async (req, res) => {
+  const { id } = req.params;
+  const { name } = req.body;
+  try {
+    const updatedTask = await prisma.task.update({
+      where: { id: parseInt(id) },
+      data: { name },
+    });
+    res.json(updatedTask);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 // Obtener todas las tareas de un usuario
 export const getTasks = async (req, res) => {
   const { userId } = req.params;
