@@ -48,6 +48,19 @@ export const getAllTasks = async (req, res) => {
   }
 };
 
+// Obtener  las tareas por el Id
+export const getTasksById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const tasks = await prisma.task.findUnique({
+      where: { id: parseInt(id) },
+    });
+    res.json(tasks);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 // Eliminar tarea por ID
 export const deleteTask = async (req, res) => {
   const { id } = req.params;
