@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/uthRoutes.js';
 import taskRoutes from './routes/taskRoutes.js';
+import shareRoutes from './routes/shareRoutes.js';
 // Configuración de variables de entorno
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.use(express.json());
 // Rutas
 app.use('/api/auth', authRoutes);
 app.use('/api/tasks', taskRoutes);
+app.use('/api/share', shareRoutes);
 
 // Puerto
 const PORT = process.env.PORT || 3000;
