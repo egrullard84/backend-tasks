@@ -104,3 +104,19 @@ export const loginUser = async (req, res) => {
     res.status(500).json({ message: "Error al iniciar sesión" });
   }
 };
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await prisma.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true
+      }
+    });
+
+    return res.status(200).json(users);
+  } catch (error) {
+    console.error("Error al obtener usuarios:", error);
+    return res.status(500).json({ error: "Error interno del servidor" });
+  }
+};

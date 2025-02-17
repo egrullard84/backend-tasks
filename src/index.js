@@ -21,7 +21,7 @@ app.use(express.json());
 // Rutas
 app.use('/api/auth', authRoutes);
 app.use('/api/tasks', taskRoutes);
-app.use('/api/share', shareRoutes);
+app.use('/api/shares', shareRoutes);
 
 // Puerto
 const PORT = process.env.PORT || 3000;
