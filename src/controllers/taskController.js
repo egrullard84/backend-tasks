@@ -27,6 +27,31 @@ export const updateTask = async (req, res) => {
   }
 };
 
+
+export const getTasksByUsers = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const userTasks = await prisma.task.findMany({
+      where: { userId: parseInt(userId) },
+    });
+
+    const sharedTasks = await prisma.sharedTask.findMany({
+      where: { userId: parseInt(userId) },
+      include: { task: true },
+    });
+
+    //console.log(userTasks);
+    //console.log(sharedTasks);
+
+
+    const formattedSharedTasks = sharedTasks.map((shared) => shared.task);
+    console.log(formattedSharedTasks);
+    res.json({ tasks: userTasks, sharedTasks: formattedSharedTasks });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+/*
 // Obtener todas las tareas de un usuario
 export const getTasksByUsers = async (req, res) => {
   const { userId } = req.params;
@@ -36,7 +61,7 @@ export const getTasksByUsers = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-};
+};*/
 
 // Obtener todas las tareas
 export const getAllTasks = async (req, res) => {
