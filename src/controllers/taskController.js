@@ -2,6 +2,7 @@ import { PrismaClient }  from '@prisma/client'
 const prisma = new PrismaClient();
 
 // Crear tarea
+
 export const createTask = async (req, res) => {
   const { name, userId } = req.body;
   try {
@@ -11,6 +12,7 @@ export const createTask = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
 
 // Actualizar una tarea por ID
 export const updateTask = async (req, res) => {
@@ -39,10 +41,6 @@ export const getTasksByUsers = async (req, res) => {
       where: { userId: parseInt(userId) },
       include: { task: true },
     });
-
-    //console.log(userTasks);
-    //console.log(sharedTasks);
-
 
     const formattedSharedTasks = sharedTasks.map((shared) => shared.task);
     console.log(formattedSharedTasks);

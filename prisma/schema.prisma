@@ -14,26 +14,34 @@ datasource db {
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
-  name     String
-  email    String    @unique
-  password String
-  tasks    Task[]    @relation("OwnerTasks")
+  id          Int          @id @default(autoincrement())
+  name        String
+  email       String       @unique
+  password    String
+  tasks       Task[]       @relation("OwnerTasks")
   sharedTasks SharedTask[]
 }
 
 model Task {
-  id       Int      @id @default(autoincrement())
-  name     String
-  userId   Int
-  owner    User      @relation("OwnerTasks", fields: [userId], references: [id])
+  id         Int          @id @default(autoincrement())
+  name       String
+  userId     Int
+  owner      User         @relation("OwnerTasks", fields: [userId], references: [id])
   sharedWith SharedTask[]
+  items      TaskItem[]
 }
 
 model SharedTask {
-  id     Int   @id @default(autoincrement())
+  id     Int  @id @default(autoincrement())
   taskId Int
   userId Int
-  task   Task  @relation(fields: [taskId], references: [id])
-  user   User  @relation(fields: [userId], references: [id])
+  task   Task @relation(fields: [taskId], references: [id])
+  user   User @relation(fields: [userId], references: [id])
+}
+
+model TaskItem {
+  id      Int     @id @default(autoincrement())
+  taskId  Int
+  content String
+  task    Task    @relation(fields: [taskId], references: [id])
 }
