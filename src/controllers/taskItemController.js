@@ -5,6 +5,8 @@ const prisma = new PrismaClient();
 // Crear un ítem de tarea
 export const createTaskItem = async (req, res) => {
   const { taskId, content } = req.body;
+  console.log(req.body);
+  
   try {
     const taskItem = await prisma.taskItem.create({
       data: {
@@ -12,7 +14,9 @@ export const createTaskItem = async (req, res) => {
         content
       },
     });
+
     res.status(201).json(taskItem);
+    
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -25,7 +29,7 @@ export const updateTaskItem = async (req, res) => {
   try {
     const updatedTaskItem = await prisma.taskItem.update({
       where: { id: parseInt(id) },
-      data: { content, done },
+      data: { content },
     });
     res.json(updatedTaskItem);
   } catch (error) {
