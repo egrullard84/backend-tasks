@@ -64,12 +64,22 @@ export const getTasksByUsers = async (req, res) => {
 // Obtener todas las tareas
 export const getAllTasks = async (req, res) => {
   try {
-    const tasks = await prisma.task.findMany();
+    const tasks = await prisma.task.findMany({
+      include: {
+        sharedWith: {
+          include: {
+            user: true, // Incluir la información del usuario con quien se compartió la tarea
+          },
+        },
+      },
+    });
+
     res.json(tasks);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
+
 
 // Obtener  las tareas por el Id
 export const getTasksById = async (req, res) => {

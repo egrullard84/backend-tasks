@@ -14,12 +14,13 @@ datasource db {
 }
 
 model User {
-  id          Int          @id @default(autoincrement())
+  id          Int             @id @default(autoincrement())
   name        String
-  email       String       @unique
+  email       String          @unique
   password    String
-  tasks       Task[]       @relation("OwnerTasks")
+  tasks       Task[]          @relation("OwnerTasks")
   sharedTasks SharedTask[]
+  sharedItems SharedTaskItem[]
 }
 
 model Task {
@@ -40,8 +41,18 @@ model SharedTask {
 }
 
 model TaskItem {
-  id      Int     @id @default(autoincrement())
-  taskId  Int
-  content String
-  task    Task    @relation(fields: [taskId], references: [id])
+  id              Int              @id @default(autoincrement())
+  taskId          Int
+  content        String
+  task           Task              @relation(fields: [taskId], references: [id])
+  sharedTaskItems SharedTaskItem[]
+}
+
+model SharedTaskItem {
+  id         Int       @id @default(autoincrement())
+  taskItemId Int
+  sharedWith Int       // Usuario con quien se comparte el item
+  accepted   Boolean   @default(false) // Indica si el usuario aceptó el item
+  taskItem   TaskItem  @relation(fields: [taskItemId], references: [id], onDelete: Cascade)
+  user       User      @relation(fields: [sharedWith], references: [id], onDelete: Cascade)
 }
